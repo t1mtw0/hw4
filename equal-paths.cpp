@@ -1,18 +1,25 @@
 #ifndef RECCHECK
-//if you want to add any #includes like <iostream> you must do them here (before the next endif)
+// if you want to add any #includes like <iostream> you must do them here
+// (before the next endif)
 
 #endif
 
 #include "equal-paths.h"
 using namespace std;
 
-
 // You may add any prototypes of helper functions here
 
+int equalPathsRec(Node *root) {
+    if (root == NULL) return 0;
+    int leftDepth = equalPathsRec(root->left);
+    int rightDepth = equalPathsRec(root->right);
+    if (leftDepth == -1 || rightDepth == -1 || leftDepth != rightDepth) return -1;
+    return leftDepth + 1;
+}
 
-bool equalPaths(Node * root)
-{
+bool equalPaths(Node *root) {
     // Add your code below
-
+    if (equalPathsRec(root) != -1) return true;
+    return false;
 }
 
