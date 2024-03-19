@@ -14,8 +14,8 @@ int equalPathsRec(Node *root) {
     int leftDepth = equalPathsRec(root->left);
     int rightDepth = equalPathsRec(root->right);
     if (leftDepth == -1 || rightDepth == -1) return -1;
-    if (leftDepth == rightDepth - 1 && leftDepth == 0) return rightDepth;
-    if (rightDepth == leftDepth - 1 && rightDepth == 0) return leftDepth;
+    if (leftDepth == rightDepth - 1 && leftDepth == 0) return rightDepth + 1;
+    if (rightDepth == leftDepth - 1 && rightDepth == 0) return leftDepth + 1;
     if (rightDepth != leftDepth) return -1;
     return leftDepth + 1;
 }
