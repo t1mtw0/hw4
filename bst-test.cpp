@@ -52,6 +52,7 @@ int main(int argc, char *argv[]) {
     bt.insert(std::make_pair('i', 2));
     bt.remove('c');
     bt.insert(std::make_pair('f', 10));
+    bt.insert(std::make_pair('e', 3));
 
     cout << "Binary Search Tree contents:" << endl;
     for (BinarySearchTree<char, int>::iterator it = bt.begin(); it != bt.end();
