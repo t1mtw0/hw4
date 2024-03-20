@@ -323,7 +323,7 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
                 break;
             }
             p = p->getLeft();
-        } else {
+        } else if (new_item.first > p->getKey()) {
             if (p->getRight() == NULL) {
                 n = new AVLNode<Key, Value>(new_item.first, new_item.second, p);
                 p->setRight(n);
