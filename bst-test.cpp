@@ -70,13 +70,9 @@ int main(int argc, char *argv[]) {
     AVLTree<char, int> at;
     at.insert(std::make_pair('a', 1));
     at.insert(std::make_pair('b', 2));
+    at.print();
     at.insert(std::make_pair('c', 3));
-    at.insert(std::make_pair('c', 4));
-    at.insert(std::make_pair('d', 5));
-    at.insert(std::make_pair('e', 8));
-    at.insert(std::make_pair('e', 9));
-    at.remove('c');
-    at.insert(std::make_pair('f', 10));
+    at.print();
 
     cout << "\nAVLTree contents:" << endl;
     for (AVLTree<char, int>::iterator it = at.begin(); it != at.end(); ++it) {
@@ -89,6 +85,8 @@ int main(int argc, char *argv[]) {
     }
     cout << "Erasing b" << endl;
     at.remove('b');
+
+    at.print();
 
     return 0;
 }
