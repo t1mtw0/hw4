@@ -435,7 +435,6 @@ void BinarySearchTree<Key, Value>::insert(
         prev->setRight(n);
         n->setParent(prev);
     }
-    printRoot(root_);
 }
 
 /**
