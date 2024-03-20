@@ -405,6 +405,11 @@ void BinarySearchTree<Key, Value>::insert(
     Node<Key, Value> *prev = NULL;
     Node<Key, Value> *curr = root_;
     while (curr) {
+        if (keyValuePair.first == curr->getKey()) {
+            curr->setValue(keyValuePair.second);
+            delete n;
+            return;
+        }
         if (keyValuePair.first < curr->getKey()) {
             prev = curr;
             curr = curr->getLeft();
