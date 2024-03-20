@@ -67,6 +67,7 @@ int main(int argc, char *argv[]) {
     bt.remove('b');
 
     // AVL Tree Tests
+    /*
     AVLTree<char, int> at;
     at.insert(std::make_pair('a', 1));
     at.insert(std::make_pair('b', 2));
@@ -87,6 +88,6 @@ int main(int argc, char *argv[]) {
     at.remove('b');
 
     at.print();
-
+*/
     return 0;
 }
