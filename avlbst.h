@@ -224,7 +224,6 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p, AVLNode<Key, Value> 
 
 template <class Key, class Value>
 void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
-    std::cout << "fix" << std::endl;
     if (p == NULL) return;
     int8_t newdiff;
     if (p->getParent() != NULL && p == p->getParent()->getLeft()) {
@@ -316,7 +315,6 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
             delete n;
             return;
         }
-
         if (new_item.first < p->getKey()) {
             prev = p;
             p = p->getLeft();
