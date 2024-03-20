@@ -460,6 +460,8 @@ void BinarySearchTree<Key, Value>::remove(const Key &key) {
     }
     if (n->getParent() == nullptr) {
         root_ = next;
+        if (next != nullptr)
+            next->setParent(n->getParent());
         delete n;
         return;
     }
