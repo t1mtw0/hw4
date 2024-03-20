@@ -351,23 +351,27 @@ void AVLTree<Key, Value>::remove(const Key &key) {
         n = tmp;
     }
     AVLNode<Key, Value> *p = n->getParent();
-    std::cout << p->getKey() << std::endl;
-    if (n->getRight() != NULL) {
-        if (n == n->getParent()->getLeft()) {
+    if (n->getLeft() != NULL) {
+        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getLeft());
             n->getLeft()->setParent(n->getParent());
-        } else {
+        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getLeft());
             n->getLeft()->setParent(n->getParent());
         }
-    }
-    if (n->getRight() != NULL) {
-        if (n == n->getParent()->getLeft()) {
+    } else if (n->getRight() != NULL) {
+        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getRight());
             n->getRight()->setParent(n->getParent());
-        } else {
+        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getRight());
             n->getRight()->setParent(n->getParent());
+        }
+    } else {
+        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
+            n->getParent()->setLeft(NULL);
+        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
+            n->getParent()->setRight(NULL);
         }
     }
     delete n;

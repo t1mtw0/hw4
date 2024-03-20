@@ -320,6 +320,7 @@ BinarySearchTree<Key, Value>::BinarySearchTree() {
 template <typename Key, typename Value>
 BinarySearchTree<Key, Value>::~BinarySearchTree() {
     clear();
+    root_ = NULL;
 }
 
 /**
@@ -439,22 +440,27 @@ void BinarySearchTree<Key, Value>::remove(const Key &key) {
         nodeSwap(n, tmp);
         n = tmp;
     }
-    if (n->getRight() != NULL) {
-        if (n == n->getParent()->getLeft()) {
+    if (n->getLeft() != NULL) {
+        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getLeft());
             n->getLeft()->setParent(n->getParent());
-        } else {
+        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getLeft());
             n->getLeft()->setParent(n->getParent());
         }
-    }
-    if (n->getRight() != NULL) {
-        if (n == n->getParent()->getLeft()) {
+    } else if (n->getRight() != NULL) {
+        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getRight());
             n->getRight()->setParent(n->getParent());
-        } else {
+        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getRight());
             n->getRight()->setParent(n->getParent());
+        }
+    } else {
+        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
+            n->getParent()->setLeft(NULL);
+        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
+            n->getParent()->setRight(NULL);
         }
     }
     delete n;
@@ -515,9 +521,7 @@ void clearRec(Node<Key, Value> *n) {
 template <typename Key, typename Value>
 void BinarySearchTree<Key, Value>::clear() {
     clearRec(root_);
-    root_ = NULL;
 }
-
 
 /**
  * A helper function to find the smallest node in the tree.
