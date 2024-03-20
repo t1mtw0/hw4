@@ -246,11 +246,15 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
             removeFix(p->getParent(), newdiff);
         } else if (p->getBalance() + diff == -2) {
             AVLNode<Key, Value> *c = p->getLeft();
-            if (c->getBalance() != 1) {
+            if (c->getBalance() == -1) {
                 rightRotate(p);
                 p->setBalance(0);
                 c->setBalance(0);
                 removeFix(c->getParent(), newdiff);
+            } else if (c->getBalance() == 0) {
+                rightRotate(p);
+                p->setBalance(-1);
+                c->setBalance(1);
             } else {
                 AVLNode<Key, Value> *g = c->getRight();
                 leftRotate(c);
@@ -279,11 +283,15 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
             removeFix(p->getParent(), newdiff);
         } else if (p->getBalance() + diff == 2) {
             AVLNode<Key, Value> *c = p->getRight();
-            if (c->getBalance() != -1) {
+            if (c->getBalance() == 1) {
                 leftRotate(p);
                 p->setBalance(0);
                 c->setBalance(0);
                 removeFix(c->getParent(), newdiff);
+            } else if (c->getBalance() == 0) {
+                leftRotate(p);
+                p->setBalance(1);
+                c->setBalance(-1);
             } else {
                 AVLNode<Key, Value> *g = c->getLeft();
                 rightRotate(c);
