@@ -168,8 +168,8 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p,
                                     AVLNode<Key, Value> *n) {
     if (p == nullptr || p->getParent() == nullptr)
         return;
-    if (p == p->getParent()->getLeft()) {
-        AVLNode<Key, Value> *g = p->getParent();
+    AVLNode<Key, Value> *g = p->getParent();
+    if (p == g->getLeft()) {
         g->updateBalance(-1);
         if (g->getBalance() == 0)
             return;
@@ -197,7 +197,6 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p,
             }
         }
     } else {
-        AVLNode<Key, Value> *g = p->getParent();
         g->updateBalance(1);
         if (g->getBalance() == 0)
             return;
@@ -229,7 +228,6 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p,
 
 template <class Key, class Value>
 void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
-    std::cout << "bah3" << std::endl;
     if (p == nullptr)
         return;
     int8_t newdiff;
@@ -244,8 +242,7 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
         if (p->getBalance() + diff == 0) {
             p->updateBalance(diff);
             removeFix(p->getParent(), newdiff);
-        }
-        if (p->getBalance() + diff == -2) {
+        } else if (p->getBalance() + diff == -2) {
             AVLNode<Key, Value> *c = p->getLeft();
             if (c->getBalance() == -1) {
                 rightRotate(p);
@@ -276,8 +273,7 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
         if (p->getBalance() + diff == 0) {
             p->updateBalance(diff);
             removeFix(p->getParent(), newdiff);
-        }
-        if (p->getBalance() + diff == 2) {
+        } else if (p->getBalance() + diff == 2) {
             AVLNode<Key, Value> *c = p->getRight();
             if (c->getBalance() == 1) {
                 leftRotate(p);
