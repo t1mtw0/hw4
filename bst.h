@@ -448,38 +448,30 @@ void BinarySearchTree<Key, Value>::remove(const Key &key) {
     Node<Key, Value> *n = internalFind(key);
     if (n == nullptr)
         return;
-    if (n == root_) {
-        delete n;
-        root_ = nullptr;
-        return;
-    }
     if (n->getLeft() != nullptr && n->getRight() != nullptr) {
         Node<Key, Value> *tmp = predecessor(n);
         nodeSwap(n, tmp);
     }
+    if (n->getParent() == nullptr)
+        root_ = nullptr;
     if (n->getLeft() != nullptr) {
-        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
+        if (n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getLeft());
-            n->getLeft()->setParent(n->getParent());
-        } else if (n->getParent() != nullptr &&
-                   n == n->getParent()->getRight()) {
+        } else if (n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getLeft());
-            n->getLeft()->setParent(n->getParent());
         }
+        n->getLeft()->setParent(n->getParent());
     } else if (n->getRight() != nullptr) {
-        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
+        if (n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getRight());
-            n->getRight()->setParent(n->getParent());
-        } else if (n->getParent() != nullptr &&
-                   n == n->getParent()->getRight()) {
+        } else if (n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getRight());
-            n->getRight()->setParent(n->getParent());
         }
+        n->getRight()->setParent(n->getParent());
     } else {
-        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
+        if (n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(nullptr);
-        } else if (n->getParent() != nullptr &&
-                   n == n->getParent()->getRight()) {
+        } else if (n == n->getParent()->getRight()) {
             n->getParent()->setRight(nullptr);
         }
     }
