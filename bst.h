@@ -421,8 +421,7 @@ void BinarySearchTree<Key, Value>::insert(
     if (keyValuePair.first < prev->getKey()) {
         prev->setLeft(n);
         n->setParent(prev);
-    }
-    else {
+    } else {
         prev->setRight(n);
         n->setParent(prev);
     }
@@ -482,7 +481,7 @@ BinarySearchTree<Key, Value>::predecessor(Node<Key, Value> *current) {
     } else {
         Node<Key, Value> *n = current->getLeft();
         while (n != NULL) {
-            n = n->getLeft();
+            n = n->getRight();
         }
         return n;
     }
@@ -502,7 +501,7 @@ BinarySearchTree<Key, Value>::successor(Node<Key, Value> *current) {
     } else {
         Node<Key, Value> *n = current->getRight();
         while (n != NULL) {
-            n = n->getRight();
+            n = n->getLeft();
         }
         return n;
     }
