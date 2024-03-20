@@ -420,8 +420,7 @@ void BinarySearchTree<Key, Value>::insert(
             curr->setValue(keyValuePair.second);
             delete n;
             return;
-        }
-        if (keyValuePair.first < curr->getKey()) {
+        } else if (keyValuePair.first < curr->getKey()) {
             prev = curr;
             curr = curr->getLeft();
         } else if (keyValuePair.first > curr->getKey()) {

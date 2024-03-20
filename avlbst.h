@@ -315,8 +315,7 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
             p->setValue(new_item.second);
             delete n;
             return;
-        }
-        if (new_item.first < p->getKey()) {
+        } else if (new_item.first < p->getKey()) {
             prev = p;
             p = p->getLeft();
         } else if (new_item.first > p->getKey()) {
@@ -331,10 +330,6 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
         prev->setRight(n);
         n->setParent(prev);
     }
-    std::cout << n->getKey() << std::endl;
-    std::cout << prev->getKey() << std::endl;
-    std::cout << (int)n->getBalance() << std::endl;
-    std::cout << (int)prev->getBalance() << std::endl;
     if (n == prev->getLeft()) {
         if (prev->getBalance() - 1 == 0)
             prev->setBalance(0);
