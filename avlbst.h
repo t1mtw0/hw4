@@ -197,8 +197,10 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p, AVLNode<Key, Value> 
         g->updateBalance(1);
         if (g->getBalance() == 0) return;
         if (g->getBalance() == 1) {
+            std::cout << "fix1" << std::endl;
             insertFix(g, p);
         } else if (g->getBalance() == 2) {
+            std::cout << "fix2" << std::endl;
             if (n == p->getRight()) {
                 leftRotate(g);
                 p->setBalance(0);
