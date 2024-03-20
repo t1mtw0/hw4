@@ -412,6 +412,7 @@ void BinarySearchTree<Key, Value>::insert(
             if (curr->getLeft() == NULL) {
                 Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
                 curr->setLeft(n);
+                printRoot(root_);
                 return;
             }
             curr = curr->getLeft();
@@ -419,12 +420,12 @@ void BinarySearchTree<Key, Value>::insert(
             if (curr->getRight() == NULL) {
                 Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
                 curr->setRight(n);
+                printRoot(root_);
                 return;
             }
             curr = curr->getRight();
         }
     }
-    printRoot(root_);
 }
 
 /**
