@@ -326,11 +326,11 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
     if (new_item.first < prev->getKey()) {
         prev->setLeft(n);
         n->setParent(prev);
-    } else {
+    } else if (new_item.first > prev->getKey()) {
         prev->setRight(n);
         n->setParent(prev);
     }
-    if (n == prev->getLeft() && prev->getBalance() -1 == 0) {
+    if (n == prev->getLeft() && prev->getBalance() - 1 == 0) {
         prev->setBalance(0);
         return;
     } else if (n == prev->getRight() && prev->getBalance() + 1 == 0) {
