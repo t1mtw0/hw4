@@ -237,8 +237,10 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
         newdiff = -1;
     }
     if (diff == -1) {
-        if (p->getBalance() + diff == -1)
+        if (p->getBalance() + diff == -1) {
+            p->updateBalance(diff);
             return;
+        }
         if (p->getBalance() + diff == 0) {
             p->updateBalance(diff);
             removeFix(p->getParent(), newdiff);
@@ -268,8 +270,10 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
             }
         }
     } else {
-        if (p->getBalance() + diff == 1)
+        if (p->getBalance() + diff == 1) {
+            p->updateBalance(diff);
             return;
+        }
         if (p->getBalance() + diff == 0) {
             p->updateBalance(diff);
             removeFix(p->getParent(), newdiff);
