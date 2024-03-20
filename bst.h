@@ -452,29 +452,23 @@ void BinarySearchTree<Key, Value>::remove(const Key &key) {
         Node<Key, Value> *tmp = predecessor(n);
         nodeSwap(n, tmp);
     }
-    if (n->getParent() == nullptr)
-        root_ = nullptr;
+    Node<Key, Value> *next = nullptr;
     if (n->getLeft() != nullptr) {
-        if (n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(n->getLeft());
-        } else if (n == n->getParent()->getRight()) {
-            n->getParent()->setRight(n->getLeft());
-        }
-        n->getLeft()->setParent(n->getParent());
-    } else if (n->getRight() != nullptr) {
-        if (n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(n->getRight());
-        } else if (n == n->getParent()->getRight()) {
-            n->getParent()->setRight(n->getRight());
-        }
-        n->getRight()->setParent(n->getParent());
+        next = n->getLeft();
     } else {
-        if (n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(nullptr);
-        } else if (n == n->getParent()->getRight()) {
-            n->getParent()->setRight(nullptr);
-        }
+        next = n->getRight();
     }
+    if (n->getParent() == nullptr) {
+        root_ = next;
+        delete n;
+        return;
+    }
+    if (n == n->getParent()->getLeft()) {
+        n->getParent()->setLeft(next);
+    } else if (n == n->getParent()->getRight()) {
+        n->getParent()->setRight(next);
+    }
+    next->setParent(n->getParent());
     delete n;
 }
 
