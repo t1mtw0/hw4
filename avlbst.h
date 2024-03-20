@@ -303,37 +303,30 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
  */
 template <class Key, class Value>
 void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
+    AVLNode<Key, Value> *n = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
     if (BinarySearchTree<Key, Value>::root_ == NULL) {
-        AVLNode<Key, Value> *n = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
         BinarySearchTree<Key, Value>::root_ = n;
         return;
     }
     AVLNode<Key, Value> *p = static_cast<AVLNode<Key, Value> *>(BinarySearchTree<Key, Value>::root_);
-    AVLNode<Key, Value> *n;
-    while (p != NULL) {
-        if (new_item.first == p->getKey()) {
-            p->setValue(new_item.second);
-            return;
-        }
+    AVLNode<Key, Value> *prev = NULL;
+    while (p) {
         if (new_item.first < p->getKey()) {
-            if (p->getLeft() == NULL) {
-                n = new AVLNode<Key, Value>(new_item.first, new_item.second, p);
-                p->setLeft(n);
-                p->updateBalance(-1);
-                break;
-            }
+            prev = p;
             p = p->getLeft();
         } else if (new_item.first > p->getKey()) {
-            if (p->getRight() == NULL) {
-                n = new AVLNode<Key, Value>(new_item.first, new_item.second, p);
-                p->setRight(n);
-                p->updateBalance(1);
-                break;
-            }
+            prev = p;
             p = p->getRight();
         }
     }
-    if (p->getBalance() == 0) return;
+    if (new_item.first < prev->getKey()) {
+        prev->setLeft(n);
+        n->setParent(prev);
+    }
+    else {
+        prev->setRight(n);
+        n->setParent(prev);
+    }
     insertFix(p, n);
 }
 

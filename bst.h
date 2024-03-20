@@ -397,34 +397,29 @@ Value const &BinarySearchTree<Key, Value>::operator[](const Key &key) const {
 template <class Key, class Value>
 void BinarySearchTree<Key, Value>::insert(
     const std::pair<const Key, Value> &keyValuePair) {
+    Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, NULL);
     if (root_ == NULL) {
-        Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, NULL);
         root_ = n;
         return;
     }
+    Node<Key, Value> *prev = NULL;
     Node<Key, Value> *curr = root_;
-    while (curr != NULL) {
-        if (keyValuePair.first == curr->getKey()) {
-            curr->setValue(keyValuePair.second);
-            return;
-        }
+    while (curr) {
         if (keyValuePair.first < curr->getKey()) {
-            if (curr->getLeft() == NULL) {
-                Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
-                curr->setLeft(n);
-                printRoot(root_);
-                return;
-            }
+            prev = curr;
             curr = curr->getLeft();
         } else if (keyValuePair.first > curr->getKey()) {
-            if (curr->getRight() == NULL) {
-                Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
-                curr->setRight(n);
-                printRoot(root_);
-                return;
-            }
+            prev = curr;
             curr = curr->getRight();
         }
+    }
+    if (keyValuePair.first < prev->getKey()) {
+        prev->setLeft(n);
+        n->setParent(prev);
+    }
+    else {
+        prev->setRight(n);
+        n->setParent(prev);
     }
 }
 
