@@ -387,19 +387,18 @@ void AVLTree<Key, Value>::remove(const Key &key) {
         return;
     }
     AVLNode<Key, Value> *p = static_cast<AVLNode<Key, Value> *>(n->getParent());
+    int8_t diff;
     if (n == n->getParent()->getLeft()) {
         n->getParent()->setLeft(next);
+        diff = 1;
     } else if (n == n->getParent()->getRight()) {
         n->getParent()->setRight(next);
+        diff = -1;
     }
     if (next != nullptr)
         next->setParent(n->getParent());
     delete n;
-    if (p == p->getParent()->getLeft()) {
-        removeFix(p, 1);
-    } else {
-        removeFix(p, -1);
-    }
+    removeFix(p, diff);
 }
 
 template <class Key, class Value>
