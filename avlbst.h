@@ -132,10 +132,10 @@ template <class Key, class Value>
 void AVLTree<Key, Value>::leftRotate(AVLNode<Key, Value> *n) {
     AVLNode<Key, Value> *c = n->getRight();
     n->setRight(c->getLeft());
-    if (c->getLeft() != NULL)
+    if (c->getLeft() != nullptr)
         c->getLeft()->setParent(n);
     c->setParent(n->getParent());
-    if (n->getParent() == NULL)
+    if (n->getParent() == nullptr)
         BinarySearchTree<Key, Value>::root_ = c;
     else if (n == n->getParent()->getLeft())
         n->getParent()->setLeft(c);
@@ -149,10 +149,10 @@ template <class Key, class Value>
 void AVLTree<Key, Value>::rightRotate(AVLNode<Key, Value> *n) {
     AVLNode<Key, Value> *c = n->getLeft();
     n->setLeft(c->getRight());
-    if (c->getRight() != NULL)
+    if (c->getRight() != nullptr)
         c->getRight()->setParent(n);
     c->setParent(n->getParent());
-    if (n->getParent() == NULL)
+    if (n->getParent() == nullptr)
         BinarySearchTree<Key, Value>::root_ = c;
     else if (n == n->getParent()->getLeft())
         n->getParent()->setLeft(c);
@@ -164,7 +164,7 @@ void AVLTree<Key, Value>::rightRotate(AVLNode<Key, Value> *n) {
 
 template <class Key, class Value>
 void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p, AVLNode<Key, Value> *n) {
-    if (p == NULL || p->getParent() == NULL) return;
+    if (p == nullptr || p->getParent() == nullptr) return;
     if (p == p->getParent()->getLeft()) {
         AVLNode<Key, Value> *g = p->getParent();
         g->updateBalance(-1);
@@ -225,11 +225,11 @@ void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value> *p, AVLNode<Key, Value> 
 template <class Key, class Value>
 void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
     std::cout << "bah3" << std::endl;
-    if (p == NULL) return;
+    if (p == nullptr) return;
     int8_t newdiff;
-    if (p->getParent() != NULL && p == p->getParent()->getLeft()) {
+    if (p->getParent() != nullptr && p == p->getParent()->getLeft()) {
         newdiff = 1;
-    } else if (p->getParent() != NULL && p == p->getParent()->getRight()) {
+    } else if (p->getParent() != nullptr && p == p->getParent()->getRight()) {
         newdiff = -1;
     }
     if (diff == -1) {
@@ -303,13 +303,13 @@ void AVLTree<Key, Value>::removeFix(AVLNode<Key, Value> *p, int8_t diff) {
  */
 template <class Key, class Value>
 void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
-    AVLNode<Key, Value> *n = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
-    if (BinarySearchTree<Key, Value>::root_ == NULL) {
+    AVLNode<Key, Value> *n = new AVLNode<Key, Value>(new_item.first, new_item.second, nullptr);
+    if (BinarySearchTree<Key, Value>::root_ == nullptr) {
         BinarySearchTree<Key, Value>::root_ = n;
         return;
     }
     AVLNode<Key, Value> *p = static_cast<AVLNode<Key, Value> *>(BinarySearchTree<Key, Value>::root_);
-    AVLNode<Key, Value> *prev = NULL;
+    AVLNode<Key, Value> *prev = nullptr;
     while (p) {
         if (new_item.first == p->getKey()) {
             p->setValue(new_item.second);
@@ -354,39 +354,39 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
 template <class Key, class Value>
 void AVLTree<Key, Value>::remove(const Key &key) {
     AVLNode<Key, Value> *n = static_cast<AVLNode<Key, Value> *>(BinarySearchTree<Key, Value>::internalFind(key));
-    if (n == NULL) return;
-    if (n->getLeft() != NULL && n->getRight() != NULL) {
+    if (n == nullptr) return;
+    if (n->getLeft() != nullptr && n->getRight() != nullptr) {
         AVLNode<Key, Value> *tmp = static_cast<AVLNode<Key, Value> *>(this->predecessor(n));
         nodeSwap(n, tmp);
     }
     AVLNode<Key, Value> *p = n->getParent();
-    if (n->getLeft() != NULL) {
-        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
+    if (n->getLeft() != nullptr) {
+        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getLeft());
             n->getLeft()->setParent(n->getParent());
-        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
+        } else if (n->getParent() != nullptr && n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getLeft());
             n->getLeft()->setParent(n->getParent());
         }
-    } else if (n->getRight() != NULL) {
-        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
+    } else if (n->getRight() != nullptr) {
+        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getRight());
             n->getRight()->setParent(n->getParent());
-        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
+        } else if (n->getParent() != nullptr && n == n->getParent()->getRight()) {
             n->getParent()->setRight(n->getRight());
             n->getRight()->setParent(n->getParent());
         }
     } else {
-        if (n->getParent() != NULL && n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(NULL);
-        } else if (n->getParent() != NULL && n == n->getParent()->getRight()) {
-            n->getParent()->setRight(NULL);
+        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
+            n->getParent()->setLeft(nullptr);
+        } else if (n->getParent() != nullptr && n == n->getParent()->getRight()) {
+            n->getParent()->setRight(nullptr);
         }
     }
     delete n;
-    if (p->getParent() != NULL && p == p->getParent()->getLeft()) {
+    if (p->getParent() != nullptr && p == p->getParent()->getLeft()) {
         removeFix(p, 1);
-    } else if (p->getParent() != NULL && p == p->getParent()->getRight()) {
+    } else if (p->getParent() != nullptr && p == p->getParent()->getRight()) {
         removeFix(p, -1);
     }
 }
