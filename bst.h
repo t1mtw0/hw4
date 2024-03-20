@@ -474,7 +474,7 @@ BinarySearchTree<Key, Value>::predecessor(Node<Key, Value> *current) {
     if (current->getLeft() == NULL) {
         Node<Key, Value> *n = current;
         while (n != NULL) {
-            if (current == current->getParent()->getRight()) return current->getParent();
+            if (current->parent() != NULL && current == current->getParent()->getRight()) return current->getParent();
             n = n->getParent();
         }
         return n;
@@ -494,7 +494,7 @@ BinarySearchTree<Key, Value>::successor(Node<Key, Value> *current) {
     if (current->getRight() == NULL) {
         Node<Key, Value> *n = current;
         while (n != NULL) {
-            if (current == current->getParent()->getLeft()) return current->getParent();
+            if (current->parent() != NULL && current == current->getParent()->getLeft()) return current->getParent();
             n = n->getParent();
         }
         return n;
