@@ -403,12 +403,12 @@ void BinarySearchTree<Key, Value>::insert(
         return;
     }
     Node<Key, Value> *curr = root_;
-    while (true) {
+    while (curr != NULL) {
         if (keyValuePair.first == curr->getKey()) {
             curr->setValue(keyValuePair.second);
             return;
         }
-        if (keyValuePair.first <= curr->getKey()) {
+        if (keyValuePair.first < curr->getKey()) {
             if (curr->getLeft() == NULL) {
                 Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
                 curr->setLeft(n);

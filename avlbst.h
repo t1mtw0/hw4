@@ -310,12 +310,12 @@ void AVLTree<Key, Value>::insert(const std::pair<const Key, Value> &new_item) {
     }
     AVLNode<Key, Value> *p = static_cast<AVLNode<Key, Value> *>(BinarySearchTree<Key, Value>::root_);
     AVLNode<Key, Value> *n;
-    while (true) {
+    while (p != NULL) {
         if (new_item.first == p->getKey()) {
             p->setValue(new_item.second);
             return;
         }
-        if (new_item.first <= p->getKey()) {
+        if (new_item.first < p->getKey()) {
             if (p->getLeft() == NULL) {
                 n = new AVLNode<Key, Value>(new_item.first, new_item.second, p);
                 p->setLeft(n);
