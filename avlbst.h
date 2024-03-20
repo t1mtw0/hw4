@@ -370,6 +370,7 @@ void AVLTree<Key, Value>::remove(const Key &key) {
     if (n == static_cast<AVLNode<Key, Value> *>(BinarySearchTree<Key, Value>::root_)) {
         delete n;
         BinarySearchTree<Key, Value>::root_ = nullptr;
+        return;
     }
     if (n->getLeft() != nullptr && n->getRight() != nullptr) {
         AVLNode<Key, Value> *tmp =

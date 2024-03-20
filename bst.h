@@ -451,6 +451,7 @@ void BinarySearchTree<Key, Value>::remove(const Key &key) {
     if (n == root_) {
         delete n;
         root_ = nullptr;
+        return;
     }
     if (n->getLeft() != nullptr && n->getRight() != nullptr) {
         Node<Key, Value> *tmp = predecessor(n);
