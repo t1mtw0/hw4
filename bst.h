@@ -296,7 +296,7 @@ template <class Key, class Value>
 typename BinarySearchTree<Key, Value>::iterator &
 BinarySearchTree<Key, Value>::iterator::operator++() {
     current_ = successor(current_);
-    return current_;
+    return *this;
 }
 
 /*
@@ -409,20 +409,20 @@ void BinarySearchTree<Key, Value>::insert(
             curr->setValue(keyValuePair.second);
             return;
         }
-        if (keyValuePair.first <= curr->getItem()) {
-            if (curr->left_ == NULL) {
+        if (keyValuePair.first <= curr->getKey()) {
+            if (curr->getLeft() == NULL) {
                 Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
-                curr->left_ = n;
+                curr->setLeft(n);
                 return;
             }
-            curr = curr->left_;
+            curr = curr->getLeft();
         } else {
-            if (curr->right_ == NULL) {
+            if (curr->getRight() == NULL) {
                 Node<Key, Value> *n = new Node<Key, Value>(keyValuePair.first, keyValuePair.second, curr);
-                curr->right_ = n;
+                curr->setRight(n);
                 return;
             }
-            curr = curr->right_;
+            curr = curr->getRight();
         }
     }
 }
@@ -436,10 +436,12 @@ template <typename Key, typename Value>
 void BinarySearchTree<Key, Value>::remove(const Key &key) {
     Node<Key, Value> *n = internalFind(key);
     if (n == NULL) return;
-    if (n->left_ != NULL && n->right_ != NULL) {
-        n = nodeSwap(n, predecessor(n));
+    if (n->getLeft() != NULL && n->getRight() != NULL) {
+        Node<Key, Value> *tmp = predecessor(n);
+        nodeSwap(n, tmp);
+        n = tmp;
     }
-    if (n->left_ != NULL) {
+    if (n->getRight() != NULL) {
         if (n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getLeft());
             n->getLeft()->setParent(n->getParent());
@@ -448,7 +450,7 @@ void BinarySearchTree<Key, Value>::remove(const Key &key) {
             n->getLeft()->setParent(n->getParent());
         }
     }
-    if (n->right_ != NULL) {
+    if (n->getRight() != NULL) {
         if (n == n->getParent()->getLeft()) {
             n->getParent()->setLeft(n->getRight());
             n->getRight()->setParent(n->getParent());
@@ -544,13 +546,13 @@ BinarySearchTree<Key, Value>::internalFind(const Key &key) const {
     Node<Key, Value> *curr = root_;
     while (true) {
         if (curr == NULL) return NULL;
-        if (keyValuePair.first == curr->getKey()) {
+        if (key == curr->getKey()) {
             return curr;
         }
-        if (keyValuePair.first <= curr->getItem()) {
-            curr = curr->left_;
+        if (key <= curr->getKey()) {
+            curr = curr->getLeft();
         } else {
-            curr = curr->right_;
+            curr = curr->getRight();
         }
     }
 }
