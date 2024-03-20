@@ -274,7 +274,12 @@ BinarySearchTree<Key, Value>::iterator::operator->() const {
 template <class Key, class Value>
 bool BinarySearchTree<Key, Value>::iterator::operator==(
     const BinarySearchTree<Key, Value>::iterator &rhs) const {
-    return current_ == rhs.current_;
+    if (current_ == NULL && rhs.current_ == NULL) {
+        return true;
+    } else if (current_ == NULL || rhs.current_ == NULL) {
+        return false;
+    }
+    return current_->getValue() == rhs.current_->getValue();
 }
 
 /**
@@ -284,7 +289,12 @@ bool BinarySearchTree<Key, Value>::iterator::operator==(
 template <class Key, class Value>
 bool BinarySearchTree<Key, Value>::iterator::operator!=(
     const BinarySearchTree<Key, Value>::iterator &rhs) const {
-    return current_ != rhs.current_;
+    if (current_ == NULL && rhs.current_ == NULL) {
+        return false;
+    } else if (current_ == NULL || rhs.current_ == NULL) {
+        return true;
+    }
+    return current_->getValue() != rhs.current_->getValue();
 }
 
 /**
@@ -425,6 +435,7 @@ void BinarySearchTree<Key, Value>::insert(
         prev->setRight(n);
         n->setParent(prev);
     }
+    printRoot(root_);
 }
 
 /**
@@ -473,14 +484,15 @@ BinarySearchTree<Key, Value>::predecessor(Node<Key, Value> *current) {
     if (current == NULL) return NULL;
     if (current->getLeft() == NULL) {
         Node<Key, Value> *n = current;
-        while (n != NULL) {
-            if (current->getParent() != NULL && current == current->getParent()->getRight()) return current->getParent();
-            n = n->getParent();
+        Node<Key, Value> *p = n->getParent();
+        while (p != NULL && n == p->getLeft()) {
+            n = p;
+            p = p->getParent();
         }
-        return n;
+        return p;
     } else {
         Node<Key, Value> *n = current->getLeft();
-        while (n != NULL) {
+        while (n->getRight() != NULL) {
             n = n->getRight();
         }
         return n;
@@ -493,14 +505,15 @@ BinarySearchTree<Key, Value>::successor(Node<Key, Value> *current) {
     if (current == NULL) return NULL;
     if (current->getRight() == NULL) {
         Node<Key, Value> *n = current;
-        while (n != NULL) {
-            if (current->getParent() != NULL && current == current->getParent()->getLeft()) return current->getParent();
-            n = n->getParent();
+        Node<Key, Value> *p = n->getParent();
+        while (p != NULL && n == p->getRight()) {
+            n = p;
+            p = p->getParent();
         }
-        return n;
+        return p;
     } else {
         Node<Key, Value> *n = current->getRight();
-        while (n != NULL) {
+        while (n->getLeft() != NULL) {
             n = n->getLeft();
         }
         return n;
