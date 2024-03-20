@@ -421,18 +421,14 @@ void BinarySearchTree<Key, Value>::insert(
             delete n;
             return;
         }
-        std::cout << "curr" << std::endl;
         if (keyValuePair.first < curr->getKey()) {
-            std::cout << "curr2" << std::endl;
             prev = curr;
             curr = curr->getLeft();
         } else if (keyValuePair.first > curr->getKey()) {
-            std::cout << "curr3" << std::endl;
             prev = curr;
             curr = curr->getRight();
         }
     }
-    std::cout << prev->getKey() << "    " << prev->getValue() << std::endl;
     if (keyValuePair.first < prev->getKey()) {
         prev->setLeft(n);
         n->setParent(prev);
@@ -440,8 +436,6 @@ void BinarySearchTree<Key, Value>::insert(
         prev->setRight(n);
         n->setParent(prev);
     }
-    std::cout << n->getKey() << " " << n->getValue() << std::endl;
-    printRoot(root_);
 }
 
 /**

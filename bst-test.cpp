@@ -53,6 +53,10 @@ int main(int argc, char *argv[]) {
     bt.remove('c');
     bt.insert(std::make_pair('f', 10));
     bt.insert(std::make_pair('e', 3));
+    bt.remove('f');
+    bt.remove('l');
+    bt.remove('k');
+    bt.insert(std::make_pair('k', 20));
 
     cout << "Binary Search Tree contents:" << endl;
     for (BinarySearchTree<char, int>::iterator it = bt.begin(); it != bt.end();
@@ -66,6 +70,8 @@ int main(int argc, char *argv[]) {
     }
     cout << "Erasing b" << endl;
     bt.remove('b');
+
+    bt.print();
 
     // AVL Tree Tests
     /*
