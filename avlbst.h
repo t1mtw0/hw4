@@ -372,37 +372,32 @@ void AVLTree<Key, Value>::remove(const Key &key) {
             static_cast<AVLNode<Key, Value> *>(this->predecessor(n));
         nodeSwap(n, tmp);
     }
-    AVLNode<Key, Value> *p = n->getParent();
+
+    Node<Key, Value> *next = nullptr;
     if (n->getLeft() != nullptr) {
-        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(n->getLeft());
-            n->getLeft()->setParent(n->getParent());
-        } else if (n->getParent() != nullptr &&
-                   n == n->getParent()->getRight()) {
-            n->getParent()->setRight(n->getLeft());
-            n->getLeft()->setParent(n->getParent());
-        }
-    } else if (n->getRight() != nullptr) {
-        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(n->getRight());
-            n->getRight()->setParent(n->getParent());
-        } else if (n->getParent() != nullptr &&
-                   n == n->getParent()->getRight()) {
-            n->getParent()->setRight(n->getRight());
-            n->getRight()->setParent(n->getParent());
-        }
+        next = n->getLeft();
     } else {
-        if (n->getParent() != nullptr && n == n->getParent()->getLeft()) {
-            n->getParent()->setLeft(nullptr);
-        } else if (n->getParent() != nullptr &&
-                   n == n->getParent()->getRight()) {
-            n->getParent()->setRight(nullptr);
-        }
+        next = n->getRight();
     }
+    if (n->getParent() == nullptr) {
+        BinarySearchTree<Key, Value>::root_ = next;
+        if (next != nullptr)
+            next->setParent(n->getParent());
+        delete n;
+        return;
+    }
+    AVLNode<Key, Value> *p = static_cast<AVLNode<Key, Value> *>(n->getParent());
+    if (n == n->getParent()->getLeft()) {
+        n->getParent()->setLeft(next);
+    } else if (n == n->getParent()->getRight()) {
+        n->getParent()->setRight(next);
+    }
+    if (next != nullptr)
+        next->setParent(n->getParent());
     delete n;
-    if (p->getParent() != nullptr && p == p->getParent()->getLeft()) {
+    if (p == p->getParent()->getLeft()) {
         removeFix(p, 1);
-    } else if (p->getParent() != nullptr && p == p->getParent()->getRight()) {
+    } else {
         removeFix(p, -1);
     }
 }
