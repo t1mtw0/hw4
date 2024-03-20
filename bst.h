@@ -274,8 +274,7 @@ BinarySearchTree<Key, Value>::iterator::operator->() const {
 template <class Key, class Value>
 bool BinarySearchTree<Key, Value>::iterator::operator==(
     const BinarySearchTree<Key, Value>::iterator &rhs) const {
-    if ((*rhs) == current_->getItem()) return true;
-    return false;
+    return current_ == rhs.current_;
 }
 
 /**
@@ -285,8 +284,7 @@ bool BinarySearchTree<Key, Value>::iterator::operator==(
 template <class Key, class Value>
 bool BinarySearchTree<Key, Value>::iterator::operator!=(
     const BinarySearchTree<Key, Value>::iterator &rhs) const {
-    if ((*rhs) != current_->getItem()) return true;
-    return false;
+    return current_ != rhs.current_;
 }
 
 /**
