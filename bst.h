@@ -425,6 +425,7 @@ void BinarySearchTree<Key, Value>::insert(
             curr = curr->getLeft();
         } else if (keyValuePair.first > curr->getKey()) {
             prev = curr;
+            std::cout << curr->getRight()->getValue();
             std::cout << curr->getRight()->getKey();
             curr = curr->getRight();
         }
